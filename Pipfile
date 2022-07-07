@@ -16,6 +16,7 @@ six = "==1.16.0"
 qtawesome = "~=1.1.1"
 
 [dev-packages]
+ipykernel = "*"
 
 [requires]
 python_version = "3.9"

@@ -5,6 +5,8 @@ import shutil
 from pathlib import WindowsPath, Path
 from typing import Generator
 
+from PIL import Image
+
 ASSETS_PATH = WindowsPath.home() / 'AppData/Local/Packages/Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy/LocalState/Assets'
 
 DESKTOP = WindowsPath.home() / 'desktop'
@@ -45,15 +47,28 @@ def get_last_number() -> int:
     last_number = int(Path(last_file_name).stem)
     return last_number
 
-def get_image_name(source)->str:
+
+def get_image_name(source) -> str:
     source = f'_{source}' if source else ""
     ext = '.jpg'
     number_fmt = '{number}'
     name = f'{DATE_STR}{source}_{number_fmt}.{ext}'
 
-def get_number_from_filename(file: WindowsPath, regex = '_(\d*)\.'):
+
+def get_number_from_filename(file: WindowsPath, regex='_(\d*)\.'):
     pass
 
+
+def get_file_orientation(file_path: str) -> str:
+    fpath = str(file.resolve())
+    # (1920, 1080) = Horizontal
+    # (1080, 1920) = Vertical
+
+    with Image.open(fpath) as im:
+        fsize = im.size
+        ratio = fsize[0] / fsize[1]
+        orientation = "P" if ratio <= 1 else "L"
+        return orientation
 
 
 def get_last_filename(assets):
